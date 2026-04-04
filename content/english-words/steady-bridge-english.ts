@@ -1,0 +1,6 @@
+/** @deprecated ישירות — מקור האמת: `./curated-catalog` */
+export {
+  ENGLISH_WORDS_STEADY_NEAR_GENTLE as STEADY_NEAR_GENTLE_ENGLISH_WORDS,
+  ENGLISH_WORDS_STEADY_NEXT as STEADY_NEXT_ENGLISH_WORDS,
+  ENGLISH_WORDS_STEADY_ORDERED as STEADY_ORDERED_ENGLISH_WORDS,
+} from "./curated-catalog";
