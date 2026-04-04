@@ -6,7 +6,7 @@ import Image from "next/image";
 export function HomeWelcomeHero() {
   return (
     <section
-      className="mb-8 rounded-3xl border border-white/10 bg-white/[0.04] px-4 py-6 shadow-inner backdrop-blur-sm sm:px-6 sm:py-7"
+      className="mb-8 rounded-3xl border border-white/10 px-4 py-6 sm:px-6 sm:py-7"
       aria-labelledby="home-welcome-heading"
     >
       <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
@@ -36,17 +36,15 @@ export function HomeWelcomeHero() {
         </div>
 
         <div className="relative shrink-0">
-          <div className="rounded-3xl border border-white/20 bg-gradient-to-b from-white/10 to-white/[0.02] p-2 shadow-lg ring-1 ring-amber-400/25 [box-shadow:0_0_28px_rgba(45,212,191,0.12)]">
-            <Image
-              src="/branding/raz-hero.png"
-              alt="רז מחייך ומעודד — דמות מסע הלמידה"
-              width={220}
-              height={275}
-              className="h-auto w-[9.5rem] object-contain sm:w-[11rem]"
-              sizes="(min-width: 640px) 11rem, 9.5rem"
-              priority
-            />
-          </div>
+          <Image
+            src="/branding/raz-hero.png"
+            alt="רז מחייך ומעודד — דמות מסע הלמידה"
+            width={220}
+            height={275}
+            className="h-auto w-[9.5rem] object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.45)] sm:w-[11rem]"
+            sizes="(min-width: 640px) 11rem, 9.5rem"
+            priority
+          />
         </div>
       </div>
     </section>
