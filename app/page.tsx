@@ -1,7 +1,15 @@
 import { HomeLevelProgress } from "@/components/home/HomeLevelProgress";
 import { HomeStarsBadge } from "@/components/home/HomeStarsBadge";
+import { HomeWelcomeHero } from "@/components/home/HomeWelcomeHero";
 import { WORLDS } from "@/content/worlds";
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Smart Raz — מסע למידה משחקית",
+  description:
+    "ברוכים הבאים למסע חכם — תרגול אנגלית, עברית וחשבון בקצב רגוע ומעודד (גילאי 5–7).",
+};
 
 export default function HomePage() {
   return (
@@ -16,21 +24,16 @@ export default function HomePage() {
         }}
       />
       <div className="relative z-10 mx-auto flex min-h-dvh max-w-3xl flex-col px-4 pb-10 pt-8 sm:px-8">
-        <header className="mb-8 flex flex-wrap items-start justify-between gap-4">
-          <div className="min-w-0">
-            <p className="text-sm font-medium text-amber-200/90">מסע קצר ובין־כוכבי</p>
-            <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">כוכב הבית</h1>
-            <p className="mt-2 max-w-md text-base text-white/85">
-              בוחרים עולם — ומשחקים קצר שמחזק ביטחון. הכל בקצב שלך.
-            </p>
-            <Link
-              href="/map"
-              className="mt-4 inline-flex min-h-12 items-center gap-2 rounded-2xl border-2 border-teal-400/50 bg-teal-600/25 px-4 text-sm font-bold text-teal-50 hover:bg-teal-500/35 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
-            >
-              <span aria-hidden>🗺️</span>
-              מפת המסע — פותחים מדינות בכוכבים
-            </Link>
-          </div>
+        <HomeWelcomeHero />
+
+        <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+          <Link
+            href="/map"
+            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl border-2 border-teal-400/50 bg-teal-600/25 px-4 text-sm font-bold text-teal-50 hover:bg-teal-500/35 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 sm:w-auto sm:justify-center"
+          >
+            <span aria-hidden>🗺️</span>
+            מפת המסע — פותחים מדינות בכוכבים
+          </Link>
           <div className="flex shrink-0 flex-col items-stretch gap-3 sm:items-end">
             <HomeLevelProgress />
             <HomeStarsBadge />
