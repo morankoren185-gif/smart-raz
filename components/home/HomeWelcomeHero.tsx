@@ -1,43 +1,35 @@
 import Image from "next/image";
 
 /**
- * אזור פתיחה עליון — מותג Smart Raz + דמות רז בעיגול לבן ליד הכותרת (RTL).
+ * Hero עליון: לוגו טיפוגרפי Smart Raz + דמות רז (PNG שקוף) באותה שורה — בלי כרטיס/עיגול פרופיל.
  */
 export function HomeWelcomeHero() {
   return (
-    <section
-      className="mb-8 rounded-3xl border border-white/10 px-4 py-6 sm:px-6 sm:py-7"
-      aria-labelledby="home-welcome-heading"
-    >
+    <section className="mb-8" aria-labelledby="home-welcome-heading">
       <div className="flex flex-col gap-4">
-        {/* שורת מותג: בעברית RTL — פריט ראשון מיושר לימין; העיגול ראשון ב-DOM = מימין לטקסט */}
-        <div className="flex flex-row items-center justify-start gap-3 sm:gap-4">
-          <div className="relative h-[5.25rem] w-[5.25rem] shrink-0 overflow-hidden rounded-full border-[3px] border-white/90 bg-white shadow-[0_6px_24px_rgba(0,0,0,0.28)] sm:h-32 sm:w-32">
+        {/*
+          RTL: flex-row + justify-start → הפריט הראשון נצמד לימין.
+          סדר DOM: דמות ואז טקסט הלוגו → הדמות מימין, «Smart Raz» משמאל, ישור שורות לבסיס (items-end).
+        */}
+        <div className="flex flex-row flex-nowrap items-end justify-start gap-2 sm:gap-4">
+          <div className="relative shrink-0 select-none">
             <Image
               src="/branding/raz-hero.png"
-              alt="רז מחייך ומעודד"
-              width={256}
-              height={256}
-              className="size-full object-cover object-[center_28%] sm:object-[center_30%]"
-              sizes="(min-width: 640px) 128px, 84px"
+              alt="רז מחייך ומעודד — דמות Smart Raz"
+              width={320}
+              height={400}
+              className="h-[7.75rem] w-auto object-contain object-bottom drop-shadow-[0_12px_32px_rgba(0,0,0,0.38)] sm:h-[10.25rem] md:h-[11rem]"
+              sizes="(min-width: 768px) 176px, (min-width: 640px) 164px, 124px"
               priority
             />
           </div>
           <div
             dir="ltr"
-            className="flex min-w-0 flex-wrap items-center justify-end gap-2 sm:gap-3"
+            className="min-w-0 flex-1 pb-0.5 text-right sm:pb-1"
           >
-            <p
-              className="bg-gradient-to-l from-amber-200 via-white to-teal-200 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent drop-shadow-[0_0_18px_rgba(251,191,36,0.35)] sm:text-4xl"
-            >
+            <p className="inline-block bg-gradient-to-l from-amber-200 via-white to-teal-200 bg-clip-text text-[1.65rem] font-extrabold leading-none tracking-tight text-transparent drop-shadow-[0_0_20px_rgba(251,191,36,0.35)] sm:text-4xl md:text-[2.5rem]">
               Smart Raz
             </p>
-            <span
-              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-amber-300/40 bg-amber-400/15 text-sm shadow-[0_0_12px_rgba(251,191,36,0.25)]"
-              aria-hidden
-            >
-              ⭐
-            </span>
           </div>
         </div>
 
