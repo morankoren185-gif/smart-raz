@@ -1,39 +1,35 @@
 import Image from "next/image";
 
 /**
- * Hero עליון: שורת לוגו (Smart Raz ⭐) + דמות רז באותו container — בלי כרטיס או מסגרת.
- * מובייל: לוגו → דמות → ברכה. דסקטופ (RTL): דמות מימין, לוגו לידה משמאל; ברכה מתחת לכל הרוחב.
+ * Hero עליון אחד: שורת לוגו (Smart Raz ⭐) + דמות רז ישירות ליד — בלי כרטיס/עטיפה סביב התמונה.
+ * מובייל: עמודה ממורכזת — לוגו, מתחת דמות. דסקטופ: שורה ממורכזת — דמות מימין, לוגו משמאל (RTL + order).
  */
 export function HomeWelcomeHero() {
   return (
     <section className="mb-8" aria-labelledby="home-welcome-heading">
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col items-end gap-3 sm:flex-row sm:items-end sm:justify-start sm:gap-4">
+        <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-6 md:gap-8">
           <div
             dir="ltr"
-            className="order-1 flex shrink-0 flex-row flex-nowrap items-center justify-end gap-2 sm:order-2 sm:min-w-0 sm:flex-1 sm:pb-0.5 md:pb-1"
+            className="order-1 flex shrink-0 flex-row flex-nowrap items-center justify-center gap-2 sm:order-2"
           >
-            <p className="inline-block bg-gradient-to-l from-amber-200 via-white to-teal-200 bg-clip-text text-[1.65rem] font-extrabold leading-none tracking-tight text-transparent drop-shadow-[0_0_20px_rgba(251,191,36,0.35)] sm:text-4xl md:text-[2.5rem]">
+            <p className="inline-block bg-gradient-to-l from-amber-200 via-white to-teal-200 bg-clip-text text-[1.7rem] font-extrabold leading-none tracking-tight text-transparent drop-shadow-[0_0_20px_rgba(251,191,36,0.35)] sm:text-4xl md:text-[2.5rem]">
               Smart Raz
             </p>
-            <span
-              className="inline-flex h-8 w-8 shrink-0 items-center justify-center text-xl leading-none sm:text-2xl"
-              aria-hidden
-            >
+            <span className="shrink-0 text-xl leading-none sm:text-2xl" aria-hidden>
               ⭐
             </span>
           </div>
-          <div className="order-2 flex justify-end sm:order-1 sm:shrink-0">
-            <Image
-              src="/branding/raz-hero.png"
-              alt="רז מחייך ומעודד — דמות Smart Raz"
-              width={320}
-              height={400}
-              className="h-[8rem] w-auto object-contain object-bottom drop-shadow-[0_12px_32px_rgba(0,0,0,0.38)] sm:h-[10.5rem] md:h-[11.25rem]"
-              sizes="(min-width: 768px) 180px, (min-width: 640px) 168px, 128px"
-              priority
-            />
-          </div>
+
+          <Image
+            src="/branding/raz.png"
+            alt="רז מחייך ומעודד — דמות Smart Raz"
+            width={320}
+            height={400}
+            className="order-2 h-[9rem] w-auto max-w-[min(100%,14rem)] shrink-0 object-contain object-bottom sm:order-1 sm:h-[11.5rem] sm:max-w-none md:h-[12.5rem]"
+            sizes="(min-width: 768px) 200px, (min-width: 640px) 184px, 144px"
+            priority
+          />
         </div>
 
         <h1
