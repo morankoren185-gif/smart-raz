@@ -17,6 +17,14 @@ import {
 } from "@/lib/play/mapGameDefinitionToMultipleChoicePlayableGame";
 import { mapGameDefinitionToMatchingPlayableGame } from "@/lib/play/mapGameDefinitionToMatchingPlayableGame";
 import { getRegionMapDefinition } from "./region-map-assets";
+import {
+  FLAGS_MAP_SPARK_TEMPLATES,
+  FLAGS_MAP_STEADY_TEMPLATES,
+  FLAGS_MATCHING_SPARK_ROUNDS,
+  FLAGS_MATCHING_STEADY_ROUNDS,
+  FLAGS_MC_SPARK_TEMPLATES,
+  FLAGS_MC_STEADY_TEMPLATES,
+} from "./curated-catalog";
 
 describe("עולם דגלים ומדינות", () => {
   it("מופיע ברשימת העולמות ובקטלוג המשחקים", () => {
@@ -33,8 +41,8 @@ describe("עולם דגלים ומדינות", () => {
     if (resolved?.kind === "multiple-choice-playable") {
       expect(resolved.playable.worldId).toBe("flags");
       expect(resolved.playable.banks.gentle.length).toBeGreaterThanOrEqual(5);
-      expect(resolved.playable.banks.steady.length).toBeGreaterThanOrEqual(6);
-      expect(resolved.playable.banks.spark.length).toBeGreaterThanOrEqual(6);
+      expect(resolved.playable.banks.steady.length).toBeGreaterThanOrEqual(10);
+      expect(resolved.playable.banks.spark.length).toBeGreaterThanOrEqual(16);
     }
   });
 
@@ -72,8 +80,8 @@ describe("עולם דגלים ומדינות", () => {
     expect(resolved?.kind).toBe("multiple-choice-playable");
     if (resolved?.kind === "multiple-choice-playable") {
       expect(resolved.playable.banks.gentle.length).toBeGreaterThanOrEqual(5);
-      expect(resolved.playable.banks.steady.length).toBeGreaterThanOrEqual(6);
-      expect(resolved.playable.banks.spark.length).toBeGreaterThanOrEqual(6);
+      expect(resolved.playable.banks.steady.length).toBeGreaterThanOrEqual(10);
+      expect(resolved.playable.banks.spark.length).toBeGreaterThanOrEqual(15);
     }
   });
 
@@ -125,5 +133,17 @@ describe("עולם דגלים ומדינות", () => {
     );
     const gentleFr = playable.banks.gentle.flatMap((mq) => mq.pairs).find((p) => p.sideB.label === "צרפת");
     expect(gentleFr).toBeDefined();
+  });
+
+  it("אוצר מורחב: steady עשיר מ־gentle, spark עשיר מ־steady — בלי עומס ב־gentle", () => {
+    expect(flagsCountryChoiceDefinition.banksByLevel.gentle.length).toBe(5);
+    expect(FLAGS_MC_STEADY_TEMPLATES.length).toBe(14);
+    expect(FLAGS_MC_SPARK_TEMPLATES.length).toBe(16);
+    expect(FLAGS_MAP_STEADY_TEMPLATES.length).toBe(10);
+    expect(FLAGS_MAP_SPARK_TEMPLATES.length).toBe(15);
+    expect(FLAGS_MATCHING_STEADY_ROUNDS.length).toBe(3);
+    expect(FLAGS_MATCHING_SPARK_ROUNDS.length).toBe(4);
+    expect(FLAGS_MC_STEADY_TEMPLATES.length).toBeLessThan(FLAGS_MC_SPARK_TEMPLATES.length);
+    expect(FLAGS_MAP_STEADY_TEMPLATES.length).toBeLessThanOrEqual(FLAGS_MAP_SPARK_TEMPLATES.length);
   });
 });

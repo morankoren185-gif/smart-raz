@@ -16,6 +16,7 @@ import {
 } from "@/content/space/curated-catalog";
 import { buildPlanetOrderMcBank } from "@/content/space/space-order-factories";
 import { buildPlanetCompareBank } from "@/content/space/space-compare-factories";
+import type { MatchingQuestion } from "@/lib/game-types/matching";
 import type { MultipleChoiceQuestion } from "@/lib/game-types/multiple-choice";
 
 describe("גשר gentle → steady", () => {
@@ -32,12 +33,13 @@ describe("גשר gentle → steady", () => {
     expect(m.steady[0]?.pairs.some((p) => p.sideB.label === "hat")).toBe(true);
   });
 
-  it("flags: steady MC — חמש מוכרות ואז AU בלבד כחדש", () => {
+  it("flags: steady MC — חיזור על חמש + אוסטרליה, אירופה ומצרים, ואז הרחבה למזרח התיכון", () => {
     const st = flagsCountryChoiceDefinition.banksByLevel.steady as MultipleChoiceQuestion[];
-    expect(st.length).toBe(6);
+    expect(st.length).toBe(14);
     expect(st[0]?.correctAnswer).toBe("jp");
-    const newish = st.filter((q) => !["jp", "il", "br", "ca", "fr"].includes(q.correctAnswer));
-    expect(newish.map((q) => q.correctAnswer)).toEqual(["au"]);
+    expect(st.slice(0, 6).map((q) => q.correctAnswer)).toEqual(["jp", "il", "br", "ca", "fr", "au"]);
+    expect(st.slice(6, 10).map((q) => q.correctAnswer)).toEqual(["de", "es", "gr", "eg"]);
+    expect(st.slice(10).map((q) => q.correctAnswer)).toEqual(["sa", "jo", "tr", "ae"]);
   });
 
   it("flags: steady map מתחיל בחיזור יפן ולא במצרים", () => {
@@ -47,7 +49,7 @@ describe("גשר gentle → steady", () => {
   });
 
   it("flags: steady matching — קודם ארבע המוכרות+קנדה", () => {
-    const st = flagsFlagMatchingDefinition.banksByLevel.steady;
+    const st = flagsFlagMatchingDefinition.banksByLevel.steady as MatchingQuestion[];
     const labels = st[0]!.pairs.map((p) => p.sideB.label);
     expect(labels).toContain("יפן");
     expect(labels).toContain("קנדה");

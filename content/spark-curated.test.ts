@@ -14,11 +14,12 @@ import {
 import { buildPlanetCompareBank } from "@/content/space/space-compare-factories";
 import { buildPlanetOrderMcBank } from "@/content/space/space-order-factories";
 import { resolvePlaySessionForSlug } from "@/lib/play/resolvePlaySessionForSlug";
+import type { MultipleChoiceQuestion } from "@/lib/game-types/multiple-choice";
 
 describe("spark אוצר — flags", () => {
   it("MC / map / matching — לא ריקים ונשענים על מפתחות מהקטלוג", () => {
-    const mc = flagsCountryChoiceDefinition.banksByLevel.spark;
-    const map = flagsCountryOnMapDefinition.banksByLevel.spark;
+    const mc = flagsCountryChoiceDefinition.banksByLevel.spark as MultipleChoiceQuestion[];
+    const map = flagsCountryOnMapDefinition.banksByLevel.spark as MultipleChoiceQuestion[];
     const match = flagsFlagMatchingDefinition.banksByLevel.spark;
     expect(mc.length).toBe(FLAGS_MC_SPARK_TEMPLATES.length);
     expect(map.length).toBe(FLAGS_MAP_SPARK_TEMPLATES.length);

@@ -1,4 +1,6 @@
 import { getFlagMissionById } from "@/content/flags/flag-missions";
+import type { FlagRegionId } from "@/content/flags/flag-regions";
+import { FLAG_REGION_QUERY_PARAM } from "@/lib/flags/flag-region-play-filter";
 import {
   isFlagMissionComplete,
   isFlagMissionStepDoneInContext,
@@ -15,12 +17,13 @@ export function buildFlagMissionPlayHref(
   gameSlug: string,
   missionId: string,
   stepId: string,
-  opts?: MissionPlayLevelOverride,
+  opts?: MissionPlayLevelOverride & Readonly<{ flagRegion?: FlagRegionId }>,
 ): string {
   const q = new URLSearchParams();
   q.set("flagsMission", missionId);
   q.set("flagsStep", stepId);
   if (opts?.playLevel) q.set(MISSION_PLAY_LEVEL_QUERY, opts.playLevel);
+  if (opts?.flagRegion) q.set(FLAG_REGION_QUERY_PARAM, opts.flagRegion);
   return `/play/${encodeURIComponent(gameSlug)}?${q.toString()}`;
 }
 
@@ -86,6 +89,7 @@ export function resolveFlagMissionPlayEndFlow(
       primaryLabel: "לשלב הבא",
       primaryHref: buildFlagMissionPlayHref(nextStep.gameSlug, mission.id, nextStep.id, {
         playLevel: rec.level,
+        flagRegion: mission.regionId,
       }),
       subline: `השלב הבא: ״${nextStep.label}״`,
     };

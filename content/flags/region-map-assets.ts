@@ -39,6 +39,22 @@ const MAPS: Record<string, RegionMapAsset> = {
         pathD: "M 100 68 L 182 72 L 178 128 L 104 122 Z",
         ariaLabelHe: "מצרים",
       },
+      turkey: {
+        pathD: "M 44 36 L 108 40 L 102 72 L 40 66 Z",
+        ariaLabelHe: "טורקיה",
+      },
+      jordan: {
+        pathD: "M 114 82 L 130 84 L 126 100 L 112 98 Z",
+        ariaLabelHe: "ירדן",
+      },
+      saudi_arabia: {
+        pathD: "M 122 92 L 210 86 L 204 148 L 118 142 Z",
+        ariaLabelHe: "סעודיה",
+      },
+      uae: {
+        pathD: "M 148 104 L 168 102 L 166 118 L 146 120 Z",
+        ariaLabelHe: "איחוד האמירויות",
+      },
     },
   },
   "americas-south": {
@@ -54,6 +70,42 @@ const MAPS: Record<string, RegionMapAsset> = {
       chile: {
         pathD: "M 68 28 L 80 30 L 74 182 L 62 178 Z",
         ariaLabelHe: "צ׳ילה",
+      },
+      argentina: {
+        pathD: "M 44 108 L 78 104 L 74 188 L 40 184 Z",
+        ariaLabelHe: "ארגנטינה",
+      },
+    },
+  },
+  "americas-north": {
+    id: "americas-north",
+    titleHe: "צפון אמריקה",
+    viewBox: "0 0 240 200",
+    oceanFill: "#155e75",
+    shapes: {
+      mexico: {
+        pathD: "M 48 52 L 112 48 L 108 112 L 52 118 Z",
+        ariaLabelHe: "מקסיקו",
+      },
+    },
+  },
+  "europe-core": {
+    id: "europe-core",
+    titleHe: "אירופה — ליבה",
+    viewBox: "0 0 240 200",
+    oceanFill: "#1e40af",
+    shapes: {
+      germany: {
+        pathD: "M 108 58 L 142 56 L 138 98 L 104 100 Z",
+        ariaLabelHe: "גרמניה",
+      },
+      spain: {
+        pathD: "M 52 72 L 96 68 L 92 128 L 48 124 Z",
+        ariaLabelHe: "ספרד",
+      },
+      greece: {
+        pathD: "M 128 88 L 178 86 L 174 118 L 124 122 Z",
+        ariaLabelHe: "יוון",
       },
     },
   },
@@ -71,6 +123,26 @@ const MAPS: Record<string, RegionMapAsset> = {
       australia: {
         pathD: "M 152 108 L 228 104 L 232 162 L 148 166 Z",
         ariaLabelHe: "אוסטרליה",
+      },
+      china: {
+        pathD: "M 118 28 L 186 32 L 182 88 L 114 84 Z",
+        ariaLabelHe: "סין",
+      },
+      india: {
+        pathD: "M 128 52 L 168 50 L 164 112 L 124 110 Z",
+        ariaLabelHe: "הודו",
+      },
+    },
+  },
+  "africa-southern": {
+    id: "africa-southern",
+    titleHe: "דרום אפריקה",
+    viewBox: "0 0 240 200",
+    oceanFill: "#0d9488",
+    shapes: {
+      south_africa: {
+        pathD: "M 96 48 L 168 46 L 164 156 L 92 158 Z",
+        ariaLabelHe: "דרום אפריקה",
       },
     },
   },

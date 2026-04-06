@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { getFlagMissionById } from "@/content/flags/flag-missions";
 import {
+  getCompletedFlagRegionMissions,
   getSuggestedNextFlagMission,
   isFlagMissionComplete,
   isFlagMissionStepDoneInContext,
@@ -73,6 +74,22 @@ describe("flags-missions-sync — מסלול משימה מול slug גלובלי
     expect(isFlagMissionComplete(m4, p)).toBe(false);
     const next = getSuggestedNextFlagMission(p);
     expect(next?.id).toBe(JOURNEY_ID);
+  });
+
+  it("getCompletedFlagRegionMissions מחזיר רק מסעות עם regionId שהושלמו", () => {
+    const europe = getFlagMissionById("flags-region-europe")!;
+    const slugs = europe.steps.map((s) => s.gameSlug);
+    const progress: ForFlagMissions = {
+      worlds: { flags: { completedGameSlugs: slugs } },
+      flagsMissionProgress: {
+        completedMissionIds: [],
+        completedSlugsByMissionId: { [europe.id]: slugs },
+      },
+    };
+    const doneRegions = getCompletedFlagRegionMissions(progress);
+    expect(doneRegions.some((m) => m.id === europe.id)).toBe(true);
+    expect(doneRegions.every((m) => m.regionId != null)).toBe(true);
+    expect(getCompletedFlagRegionMissions(defaultProgress()).length).toBe(0);
   });
 });
 

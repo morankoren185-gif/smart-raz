@@ -29,6 +29,9 @@ import {
   type LearningItemsProgressState,
 } from "@/lib/progress/storage";
 import { isSrsWorld, learningItemKeyMc, orderMcTemplatesForSrs } from "@/lib/progress/learning-items";
+import type { FlagRegionId } from "@/content/flags/flag-regions";
+import { filterFlagMultipleChoiceBank } from "@/lib/flags/flag-region-play-filter";
+import type { MultipleChoiceQuestion } from "@/lib/game-types/multiple-choice";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -60,6 +63,7 @@ export type ChoiceGameClientProps =
       initialDifficulty: DifficultyKey;
       playableMultipleChoice: MultipleChoicePlayableGame;
       legacyModule?: undefined;
+      flagsRegionFilter?: FlagRegionId;
       flagsMissionContextId?: string;
       flagsMissionStepId?: string;
       englishWordsMissionContextId?: string;
@@ -71,6 +75,7 @@ export type ChoiceGameClientProps =
       initialDifficulty: DifficultyKey;
       legacyModule: GameModule;
       playableMultipleChoice?: undefined;
+      flagsRegionFilter?: FlagRegionId;
       flagsMissionContextId?: string;
       flagsMissionStepId?: string;
       englishWordsMissionContextId?: string;
@@ -82,6 +87,7 @@ export type ChoiceGameClientProps =
 export function ChoiceGameClient(props: ChoiceGameClientProps) {
   const {
     initialDifficulty,
+    flagsRegionFilter,
     flagsMissionContextId,
     flagsMissionStepId,
     englishWordsMissionContextId,
@@ -117,7 +123,12 @@ export function ChoiceGameClient(props: ChoiceGameClientProps) {
   const [rounds, setRounds] = useState<PlayableMultipleChoiceRound[]>(() => {
     const learning = loadProgress().learningItemsProgress;
     return props.playableMultipleChoice != null
-      ? buildRoundsFromPlayableMc(props.playableMultipleChoice, initialDifficulty, learning)
+      ? buildRoundsFromPlayableMc(
+          props.playableMultipleChoice,
+          initialDifficulty,
+          learning,
+          flagsRegionFilter,
+        )
       : buildRoundsFromLegacyModule(props.legacyModule, initialDifficulty, learning);
   });
 
@@ -395,8 +406,13 @@ function buildRoundsFromPlayableMc(
   game: MultipleChoicePlayableGame,
   difficulty: DifficultyKey,
   learning?: LearningItemsProgressState,
+  flagsRegionFilter?: FlagRegionId,
 ): PlayableMultipleChoiceRound[] {
-  const bankMc = game.banks[difficulty] ?? game.banks.gentle;
+  const rawBank = game.banks[difficulty] ?? game.banks.gentle;
+  const bankMc =
+    game.worldId === "flags" && flagsRegionFilter
+      ? filterFlagMultipleChoiceBank(rawBank as MultipleChoiceQuestion[], flagsRegionFilter)
+      : rawBank;
   const templates = bankMc.map(mcQuestionToPlayableRound);
   const items = learning?.items ?? {};
   const useSrs = isSrsWorld(game.worldId);

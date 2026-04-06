@@ -1,5 +1,5 @@
 import {
-  FLAG_MISSIONS,
+  ALL_FLAG_MISSIONS,
   type FlagMission,
   type FlagMissionStep,
 } from "@/content/flags/flag-missions";
@@ -19,7 +19,7 @@ export type ForFlagMissions = Readonly<{
  */
 export function missionNeedsPerMissionSlugCompletion(
   mission: FlagMission,
-  catalog: readonly FlagMission[] = FLAG_MISSIONS,
+  catalog: readonly FlagMission[] = ALL_FLAG_MISSIONS,
 ): boolean {
   const mySlugs = new Set(mission.steps.map((s) => s.gameSlug));
   for (const other of catalog) {
@@ -47,19 +47,28 @@ export function isFlagMissionComplete(mission: FlagMission, progress: ForFlagMis
 }
 
 export function computeCompletedFlagMissionIds(progress: ForFlagMissions): string[] {
-  return FLAG_MISSIONS.filter((m) => isFlagMissionComplete(m, progress)).map((m) => m.id);
+  return ALL_FLAG_MISSIONS.filter((m) => isFlagMissionComplete(m, progress)).map((m) => m.id);
+}
+
+/** מסעות יבשת שהושלמו — לתצוגת אוסף ב־hub */
+export function getCompletedFlagRegionMissions(
+  progress: ForFlagMissions,
+): readonly FlagMission[] {
+  return ALL_FLAG_MISSIONS.filter(
+    (m) => m.regionId != null && isFlagMissionComplete(m, progress),
+  ).sort((a, b) => a.sortOrder - b.sortOrder);
 }
 
 /** פתיחה לפי השלמת המשימה הקודמת במסלול (ממצב המשחקים, לא רק מהשדה השמור) */
 export function isFlagMissionUnlocked(mission: FlagMission, progress: ForFlagMissions): boolean {
   if (!mission.requiresCompletedMissionId) return true;
-  const prev = FLAG_MISSIONS.find((x) => x.id === mission.requiresCompletedMissionId);
+  const prev = ALL_FLAG_MISSIONS.find((x) => x.id === mission.requiresCompletedMissionId);
   return prev != null && isFlagMissionComplete(prev, progress);
 }
 
 /** המשימה הראשונה שלא הושלמה וכבר פתוחה — לתג "הבא בתור" */
 export function getSuggestedNextFlagMission(progress: ForFlagMissions): FlagMission | undefined {
-  const ordered = [...FLAG_MISSIONS].sort((a, b) => a.sortOrder - b.sortOrder);
+  const ordered = [...ALL_FLAG_MISSIONS].sort((a, b) => a.sortOrder - b.sortOrder);
   for (const m of ordered) {
     if (!isFlagMissionUnlocked(m, progress)) continue;
     if (!isFlagMissionComplete(m, progress)) return m;

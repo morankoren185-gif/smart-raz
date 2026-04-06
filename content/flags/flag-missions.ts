@@ -1,4 +1,6 @@
 import type { DifficultyKey } from "@/content/types";
+import type { FlagRegionId } from "@/content/flags/flag-regions";
+import { FLAG_REGION_MISSIONS_LIST } from "@/content/flags/flag-region-missions";
 
 /** שלב במסלול — מצביע על משחק קיים לפי slug */
 export type FlagMissionStep = Readonly<{
@@ -17,6 +19,8 @@ export type FlagMission = Readonly<{
   title: string;
   /** תיאור אזור / נושא למסע */
   region: string;
+  /** מזהה אזור לפילטר תוכן במשחק — מסעות לפי יבשת */
+  regionId?: FlagRegionId;
   focusCountries: readonly string[];
   /** משפט קצר וחיובי */
   description: string;
@@ -129,6 +133,11 @@ export const FLAG_MISSIONS: readonly FlagMission[] = [
   },
 ];
 
+/** כל מסעות הדגלים: מסלול הפתיחה + מסעות אזוריים — לפי sortOrder */
+export const ALL_FLAG_MISSIONS: readonly FlagMission[] = [...FLAG_MISSIONS, ...FLAG_REGION_MISSIONS_LIST].sort(
+  (a, b) => a.sortOrder - b.sortOrder,
+);
+
 export function getFlagMissionById(id: string): FlagMission | undefined {
-  return FLAG_MISSIONS.find((m) => m.id === id);
+  return ALL_FLAG_MISSIONS.find((m) => m.id === id);
 }

@@ -66,7 +66,28 @@ describe("שכבת gentle אוצרת — איכות למידה ראשונה", ()
     const gentle = flagsCountryOnMapDefinition.banksByLevel.gentle as MultipleChoiceQuestion[];
     expect(gentle.length).toBe(5);
     const allowedChoiceKeys = new Set(["jp", "il", "br", "ca", "fr"]);
-    const disallowedAnswers = new Set(["au", "eg", "it", "ie", "uk", "cl"]);
+    const disallowedAnswers = new Set([
+      "au",
+      "eg",
+      "it",
+      "ie",
+      "uk",
+      "cl",
+      "de",
+      "es",
+      "gr",
+      "mx",
+      "ar",
+      "za",
+      "cn",
+      "in",
+      "gb",
+      "us",
+      "sa",
+      "jo",
+      "tr",
+      "ae",
+    ]);
     const mappableHighlights = new Set(["japan", "israel", "brazil"]);
     for (const q of gentle) {
       expect(disallowedAnswers.has(q.correctAnswer)).toBe(false);

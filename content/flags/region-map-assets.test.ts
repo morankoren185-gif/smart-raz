@@ -13,10 +13,34 @@ describe("region-map-assets", () => {
     expect(getRegionMapDefinition("no-such-map")).toBeUndefined();
   });
 
-  it("רשימת מפות כוללת את ארבעת האזורים ל-MVP", () => {
+  it("רשימת מפות כוללת אזורי בסיס + הרחבות לדגלים", () => {
     const ids = listRegionMapIds();
     expect(ids).toEqual(
-      expect.arrayContaining(["mid-east-europe", "americas-south", "asia-pacific", "north-atlantic"]),
+      expect.arrayContaining([
+        "mid-east-europe",
+        "americas-south",
+        "americas-north",
+        "europe-core",
+        "africa-southern",
+        "asia-pacific",
+        "north-atlantic",
+      ]),
     );
+  });
+
+  it("צורות להרחבת דרומי־אמריקה / צפון / אירופה / אסיה / אפריקה", () => {
+    expect(getRegionMapDefinition("americas-south")?.shapes.argentina).toBeDefined();
+    expect(getRegionMapDefinition("americas-north")?.shapes.mexico).toBeDefined();
+    expect(getRegionMapDefinition("europe-core")?.shapes.germany).toBeDefined();
+    expect(getRegionMapDefinition("asia-pacific")?.shapes.china).toBeDefined();
+    expect(getRegionMapDefinition("africa-southern")?.shapes.south_africa).toBeDefined();
+  });
+
+  it("מפת ים תיכון כוללת והמזרח התיכון — טורקיה, ירדן, סעודיה, אמירויות", () => {
+    const m = getRegionMapDefinition("mid-east-europe");
+    expect(m?.shapes.turkey).toBeDefined();
+    expect(m?.shapes.jordan).toBeDefined();
+    expect(m?.shapes.saudi_arabia).toBeDefined();
+    expect(m?.shapes.uae).toBeDefined();
   });
 });

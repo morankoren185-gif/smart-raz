@@ -8,6 +8,10 @@ import {
 import { useAppProgress } from "@/lib/progress/storage";
 import type { MultipleChoicePlayableGame } from "@/lib/play/multipleChoicePlayableGame";
 import type { MatchingPlayableGame } from "@/lib/play/matchingPlayableGame";
+import {
+  FLAG_REGION_QUERY_PARAM,
+  parseFlagRegionQueryParam,
+} from "@/lib/flags/flag-region-play-filter";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { ChoiceGameClient } from "./ChoiceGameClient";
@@ -40,12 +44,15 @@ function PlayGameClientInner(props: PlayGameClientProps) {
 
   const fromMission = parseMissionPlayLevelParam(search.get(MISSION_PLAY_LEVEL_QUERY));
   const initialDifficulty = fromMission ?? progress.worlds[worldId].difficulty;
+  const flagsRegionFilter =
+    worldId === "flags" ? parseFlagRegionQueryParam(search.get(FLAG_REGION_QUERY_PARAM)) : undefined;
 
   if (props.playableMultipleChoice != null) {
     return (
       <ChoiceGameClient
         playableMultipleChoice={props.playableMultipleChoice}
         initialDifficulty={initialDifficulty}
+        flagsRegionFilter={flagsRegionFilter}
         flagsMissionContextId={flagsMissionContextId}
         flagsMissionStepId={flagsMissionStepId}
         englishWordsMissionContextId={englishWordsMissionContextId}
@@ -61,6 +68,7 @@ function PlayGameClientInner(props: PlayGameClientProps) {
       <MatchingGameClient
         playable={props.playableMatching}
         initialDifficulty={initialDifficulty}
+        flagsRegionFilter={flagsRegionFilter}
         flagsMissionContextId={flagsMissionContextId}
         flagsMissionStepId={flagsMissionStepId}
         englishWordsMissionContextId={englishWordsMissionContextId}

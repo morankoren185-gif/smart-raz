@@ -1,7 +1,11 @@
 "use client";
 
 import { FlagMissionStampBadge } from "@/components/world/FlagMissionStampBadge";
-import { getStampDisplayForMission } from "@/lib/flags/flag-mission-stamp-display";
+import {
+  getRegionMissionCelebrationSubtitle,
+  getStampDisplayForMission,
+  isFlagRegionMission,
+} from "@/lib/flags/flag-mission-stamp-display";
 import { buildFlagMissionPlayHref } from "@/lib/flags/flag-mission-return-flow";
 import { getFlagMissionById } from "@/content/flags/flag-missions";
 import { getGameDefinitionBySlug } from "@/content/game-definitions";
@@ -63,6 +67,21 @@ function FlagMissionPageContent() {
   const unlocked = isFlagMissionUnlocked(mission, progress);
   const done = isFlagMissionComplete(mission, progress);
   const stampDisplay = getStampDisplayForMission(mission);
+  const isRegionMission = isFlagRegionMission(mission);
+
+  const completedStampBannerClass = (() => {
+    if (!done) return "";
+    if (isRegionMission && missionDoneCelebration) {
+      return "border-amber-300/45 bg-gradient-to-l from-amber-400/15 via-teal-900/30 to-indigo-950/35 shadow-md shadow-teal-950/25";
+    }
+    if (isRegionMission) {
+      return "border-teal-300/50 bg-gradient-to-l from-teal-900/35 via-indigo-950/25 to-slate-900/40";
+    }
+    if (missionDoneCelebration) {
+      return "border-amber-300/55 bg-gradient-to-l from-amber-500/20 to-teal-800/25 shadow-lg shadow-teal-950/40";
+    }
+    return "border-white/12 bg-white/5";
+  })();
 
   return (
     <div className="relative min-h-dvh bg-[radial-gradient(ellipse_at_top,_#134e4a_0%,_#0f172a_55%,_#020617_100%)] text-white">
@@ -75,23 +94,30 @@ function FlagMissionPageContent() {
         </Link>
         {done ? (
           <div
-            className={[
-              "mt-4 flex flex-wrap items-center gap-3 rounded-2xl border px-3 py-3",
-              missionDoneCelebration
-                ? "border-amber-300/55 bg-gradient-to-l from-amber-500/20 to-teal-800/25 shadow-lg shadow-teal-950/40"
-                : "border-white/12 bg-white/5",
-            ].join(" ")}
+            className={`mt-4 flex flex-wrap items-center gap-4 rounded-2xl border px-4 py-4 ${completedStampBannerClass}`}
           >
-            <FlagMissionStampBadge mission={mission} size="lg" />
+            <FlagMissionStampBadge
+              mission={mission}
+              size="lg"
+              presentation={isRegionMission ? "celebration" : "default"}
+            />
             <div className="min-w-0 text-right">
-              <p className="text-xs font-medium text-teal-100/90">החותמת שלך</p>
-              <p className="text-sm font-semibold text-white">{stampDisplay.labelHe}</p>
+              <p className="text-xs font-medium text-teal-100/90">
+                {isRegionMission ? "חותמת היבשת שלך" : "החותמת שלך"}
+              </p>
+              <p className="text-base font-semibold text-white">{stampDisplay.labelHe}</p>
+              {isRegionMission ? (
+                <p className="mt-1 text-sm text-white/80">מדביקים אותה באוסף — עוד יבשת בדרך.</p>
+              ) : null}
             </div>
           </div>
         ) : null}
         {missionDoneCelebration && done ? (
           <p className="mt-3 rounded-2xl border border-amber-300/35 bg-amber-400/10 px-4 py-3 text-sm font-medium text-amber-50">
-            וואו — סיימת את כל השלבים כאן! נתעדכן בחותמת הקטנה שלך ממש למעלה.
+            {isRegionMission
+              ? (getRegionMissionCelebrationSubtitle(mission) ??
+                "כל הכבוד — סיימת את המסע! החותמת באוסף.")
+              : "וואו — סיימת את כל השלבים כאן! נתעדכן בחותמת הקטנה שלך ממש למעלה."}
           </p>
         ) : null}
         <div className={`flex flex-wrap items-center gap-3 ${done ? "mt-3" : "mt-4"}`}>
@@ -169,6 +195,7 @@ function FlagMissionPageContent() {
                     <Link
                       href={buildFlagMissionPlayHref(step.gameSlug, mission.id, step.id, {
                         playLevel: rec.level,
+                        flagRegion: mission.regionId,
                       })}
                       className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-amber-400 px-5 text-base font-bold text-slate-900 shadow-md hover:bg-amber-300"
                     >

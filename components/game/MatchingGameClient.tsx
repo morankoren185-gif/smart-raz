@@ -3,7 +3,10 @@
 import { KidListenButton } from "@/components/kid/KidListenButton";
 import { KidShell } from "@/components/layout/KidShell";
 import { cancelOngoingSpeech, normalizeSpeechText } from "@/lib/audio/speech";
+import type { FlagRegionId } from "@/content/flags/flag-regions";
 import type { DifficultyKey } from "@/content/index";
+import { filterFlagMatchingBank } from "@/lib/flags/flag-region-play-filter";
+import type { MatchingQuestion } from "@/lib/game-types/matching";
 import { prepareMatchingPuzzleFromBank } from "@/lib/play/buildMatchingPlayableCards";
 import type { MatchingPlayableCard } from "@/lib/play/buildMatchingPlayableCards";
 import type { MatchingPlayableGame } from "@/lib/play/matchingPlayableGame";
@@ -33,6 +36,7 @@ type Phase = "playing" | "summary";
 type MatchingGameClientProps = {
   playable: MatchingPlayableGame;
   initialDifficulty: DifficultyKey;
+  flagsRegionFilter?: FlagRegionId;
   flagsMissionContextId?: string;
   flagsMissionStepId?: string;
   englishWordsMissionContextId?: string;
@@ -44,6 +48,7 @@ type MatchingGameClientProps = {
 export function MatchingGameClient({
   playable,
   initialDifficulty,
+  flagsRegionFilter,
   flagsMissionContextId,
   flagsMissionStepId,
   englishWordsMissionContextId,
@@ -65,7 +70,11 @@ export function MatchingGameClient({
   );
 
   const puzzle = useMemo(() => {
-    const bank = playable.banks[difficulty] ?? playable.banks.gentle;
+    const rawBank = playable.banks[difficulty] ?? playable.banks.gentle;
+    const bank =
+      playable.worldId === "flags" && flagsRegionFilter
+        ? filterFlagMatchingBank(rawBank as MatchingQuestion[], flagsRegionFilter)
+        : rawBank;
     if (!isSrsWorld(playable.worldId)) {
       return prepareMatchingPuzzleFromBank(bank);
     }
@@ -75,7 +84,7 @@ export function MatchingGameClient({
       learningItems: items,
       now: new Date(),
     });
-  }, [playable.banks, playable.slug, playable.worldId, difficulty]);
+  }, [playable.banks, playable.slug, playable.worldId, difficulty, flagsRegionFilter]);
 
   const [cards] = useState<MatchingPlayableCard[]>(() => puzzle?.cards ?? []);
   const [matchedPairIds, setMatchedPairIds] = useState<Set<string>>(() => new Set());
