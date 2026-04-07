@@ -4,6 +4,7 @@ import {
   getSpeechLocaleForWorld,
   isSpeechSynthesisAvailable,
   joinChoiceLabelsForSpeech,
+  normalizeEnglishInstructionForSpeech,
   normalizeSpeechText,
   speakText,
 } from "./speech";
@@ -26,6 +27,14 @@ describe("normalizeSpeechText", () => {
   it("collapses newlines to pause marker and trims", () => {
     expect(normalizeSpeechText("שלום\nעולם")).toBe("שלום — עולם");
     expect(normalizeSpeechText("  a  \n\n  b  ")).toBe("a — b");
+  });
+});
+
+describe("normalizeEnglishInstructionForSpeech", () => {
+  it("מחליף שורות בנקודתיים ו־vs ל־versus לאנגלית", () => {
+    const s = normalizeEnglishInstructionForSpeech("Hello:\nworld\nA vs. B");
+    expect(s).toContain("Hello: world");
+    expect(s.toLowerCase()).toContain("versus");
   });
 });
 

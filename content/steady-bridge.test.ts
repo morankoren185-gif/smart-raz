@@ -29,7 +29,7 @@ describe("גשר gentle → steady", () => {
 
   it("englishWords: matching steady מתחיל ב-hat ולא ב-apple", () => {
     const m = buildEmojiWordMatchingBank();
-    expect(m.steady.length).toBe(3);
+    expect(m.steady.length).toBe(5);
     expect(m.steady[0]?.pairs.some((p) => p.sideB.label === "hat")).toBe(true);
   });
 

@@ -84,6 +84,86 @@ export const ENGLISH_WORD_VISUALS: Readonly<Record<string, EnglishWordVisualSpec
   elephant: { emoji: "🐘", altHe: "פיל", illustrationKey: "word/elephant" },
   purple: { emoji: "🟣", altHe: "סגול", illustrationKey: "word/purple" },
   airplane: { emoji: "✈️", altHe: "מטוס", illustrationKey: "word/airplane" },
+  bird: {
+    emoji: "🐦",
+    altHe: "ציפור",
+    illustrationKey: "word/bird",
+    imageSrc: englishWordIllustrationSrc("bird"),
+  },
+  ball: {
+    emoji: "⚽",
+    altHe: "כדור",
+    illustrationKey: "word/ball",
+    imageSrc: englishWordIllustrationSrc("ball"),
+  },
+  milk: {
+    emoji: "🥛",
+    altHe: "חלב",
+    illustrationKey: "word/milk",
+    imageSrc: englishWordIllustrationSrc("milk"),
+  },
+  red: {
+    emoji: "🔴",
+    altHe: "אדום",
+    illustrationKey: "word/red",
+    imageSrc: englishWordIllustrationSrc("red"),
+  },
+  star: {
+    emoji: "⭐",
+    altHe: "כוכב",
+    illustrationKey: "word/star",
+    imageSrc: englishWordIllustrationSrc("star"),
+  },
+  bed: {
+    emoji: "🛏️",
+    altHe: "מיטה",
+    illustrationKey: "word/bed",
+    imageSrc: englishWordIllustrationSrc("bed"),
+  },
+  bus: {
+    emoji: "🚌",
+    altHe: "אוטובוס",
+    illustrationKey: "word/bus",
+    imageSrc: englishWordIllustrationSrc("bus"),
+  },
+  cup: {
+    emoji: "🥤",
+    altHe: "ספל",
+    illustrationKey: "word/cup",
+    imageSrc: englishWordIllustrationSrc("cup"),
+  },
+  cake: {
+    emoji: "🎂",
+    altHe: "עוגה",
+    illustrationKey: "word/cake",
+    imageSrc: englishWordIllustrationSrc("cake"),
+  },
+  shoe: { emoji: "👟", altHe: "נעל", illustrationKey: "word/shoe" },
+  duck: { emoji: "🦆", altHe: "ברווז", illustrationKey: "word/duck" },
+  frog: {
+    emoji: "🐸",
+    altHe: "צפרדע",
+    illustrationKey: "word/frog",
+    imageSrc: englishWordIllustrationSrc("frog"),
+  },
+  tiger: { emoji: "🐯", altHe: "נמר", illustrationKey: "word/tiger" },
+  monkey: { emoji: "🐵", altHe: "קוף", illustrationKey: "word/monkey" },
+  train: {
+    emoji: "🚂",
+    altHe: "רכבת",
+    illustrationKey: "word/train",
+    imageSrc: englishWordIllustrationSrc("train"),
+  },
+  yellow: { emoji: "🟡", altHe: "צהוב", illustrationKey: "word/yellow" },
+  orange: { emoji: "🟠", altHe: "כתום", illustrationKey: "word/orange" },
+  flower: {
+    emoji: "🌸",
+    altHe: "פרח",
+    illustrationKey: "word/flower",
+    imageSrc: englishWordIllustrationSrc("flower"),
+  },
+  spoon: { emoji: "🥄", altHe: "כפית", illustrationKey: "word/spoon" },
+  sister: { emoji: "👧", altHe: "אחות", illustrationKey: "word/sister" },
 };
 
 /** תאימות לאחור — מפת emoji בלבד (נגזר מהוויזואל המלא) */
@@ -110,10 +190,4 @@ export function lettersSegmentForBuild(word: string, level: DifficultyLevel): st
   if (w.length <= 6) return w;
   if (level === "spark") return w.slice(0, 6);
   return w.slice(0, 5);
-}
-
-export function displayHintForBuild(fullWord: string, segment: string): string {
-  return segment === fullWord.toLowerCase()
-    ? fullWord
-    : `${segment} (${fullWord})`;
 }

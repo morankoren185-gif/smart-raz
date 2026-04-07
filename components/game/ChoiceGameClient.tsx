@@ -5,7 +5,12 @@ import { BigChoiceButton } from "@/components/kid/BigChoiceButton";
 import { ChoicePromptVisual } from "@/components/kid/ChoicePromptVisual";
 import { KidListenButton } from "@/components/kid/KidListenButton";
 import { KidShell } from "@/components/layout/KidShell";
-import { cancelOngoingSpeech, joinChoiceLabelsForSpeech, normalizeSpeechText } from "@/lib/audio/speech";
+import {
+  cancelOngoingSpeech,
+  joinChoiceLabelsForSpeech,
+  normalizeEnglishInstructionForSpeech,
+  normalizeSpeechText,
+} from "@/lib/audio/speech";
 import type { DifficultyKey, GameModule } from "@/content/index";
 import { bumpDifficulty } from "@/lib/game-engine/adaptive";
 import { maxChoicesForDifficulty } from "@/lib/game-engine/config";
@@ -322,7 +327,11 @@ export function ChoiceGameClient(props: ChoiceGameClientProps) {
     );
   }
 
-  const instructionSpeech = current ? normalizeSpeechText(current.prompt) : "";
+  const instructionSpeech = current
+    ? session.worldId === "englishWords" || session.worldId === "space"
+      ? normalizeEnglishInstructionForSpeech(current.prompt)
+      : normalizeSpeechText(current.prompt)
+    : "";
   const choicesSpeech = current ? joinChoiceLabelsForSpeech(current.choices) : "";
 
   return (

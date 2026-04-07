@@ -82,6 +82,19 @@ export function normalizeSpeechText(raw: string): string {
   return raw.replace(/\n+/g, " — ").replace(/\s+/g, " ").trim();
 }
 
+/**
+ * אנגלית / חלל — הקראה קריאה יותר ל־TTS (מילוי נקודתיים, מקפים, מילות קיצור).
+ */
+export function normalizeEnglishInstructionForSpeech(raw: string): string {
+  return raw
+    .replace(/:\s*/g, ": ")
+    .replace(/\n+/g, ". ")
+    .replace(/\s*—\s*/g, ", ")
+    .replace(/\bvs\.?\b/gi, "versus")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 /** טקסט מאוחד לאפשרויות multiple-choice (בלי כפתור נפרד לכל פריט) */
 export function joinChoiceLabelsForSpeech(
   choices: ReadonlyArray<{ label: string; emoji?: string; altHe?: string }>,

@@ -2,7 +2,11 @@
 
 import { KidListenButton } from "@/components/kid/KidListenButton";
 import { KidShell } from "@/components/layout/KidShell";
-import { cancelOngoingSpeech, normalizeSpeechText } from "@/lib/audio/speech";
+import {
+  cancelOngoingSpeech,
+  normalizeEnglishInstructionForSpeech,
+  normalizeSpeechText,
+} from "@/lib/audio/speech";
 import type { FlagRegionId } from "@/content/flags/flag-regions";
 import type { DifficultyKey } from "@/content/index";
 import { filterFlagMatchingBank } from "@/lib/flags/flag-region-play-filter";
@@ -248,7 +252,11 @@ export function MatchingGameClient({
       <div className="mb-4 flex justify-center">
         <KidListenButton
           worldId={session.worldId}
-          text={normalizeSpeechText(question.instructions)}
+          text={
+            session.worldId === "englishWords" || session.worldId === "space"
+              ? normalizeEnglishInstructionForSpeech(question.instructions)
+              : normalizeSpeechText(question.instructions)
+          }
           label="להקשיב להנחיה"
           variant="primary"
         />

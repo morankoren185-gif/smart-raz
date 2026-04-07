@@ -2,6 +2,7 @@
 
 import { getRegionMapDefinition } from "@/content/flags/region-map-assets";
 import type { MapCountryPresentation } from "@/lib/game-types/multiple-choice";
+import { orderedShapeIdsForRegionMap } from "@/lib/flags/region-map-draw-order";
 
 export type MapCountryQuestionVisualProps = {
   mapCountry: MapCountryPresentation;
@@ -23,6 +24,12 @@ export function MapCountryQuestionVisual({ mapCountry, caption }: MapCountryQues
   }
 
   const ids = Object.keys(def.shapes);
+  const pathDByShapeId = Object.fromEntries(ids.map((id) => [id, def.shapes[id]!.pathD]));
+  const drawOrder = orderedShapeIdsForRegionMap({
+    shapeIds: ids,
+    pathDByShapeId,
+    highlightedShapeId: mapCountry.highlightedShapeId,
+  });
 
   return (
     <div className="flex w-full flex-col items-center gap-3" dir="rtl">
@@ -31,13 +38,15 @@ export function MapCountryQuestionVisual({ mapCountry, caption }: MapCountryQues
       ) : null}
       <p className="text-xs font-medium text-teal-100/80">{def.titleHe}</p>
       <svg
+        xmlns="http://www.w3.org/2000/svg"
         viewBox={def.viewBox}
+        preserveAspectRatio="xMidYMid meet"
         className="h-auto w-full max-w-md rounded-2xl border-2 border-teal-400/40 bg-slate-900/50 shadow-inner"
         role="img"
         aria-label={`מפה: ${def.titleHe}. מדינה מסומנת.`}
       >
-        <rect x="0" y="0" width="240" height="200" fill={def.oceanFill} />
-        {ids.map((shapeId) => {
+        <rect width="100%" height="100%" fill={def.oceanFill} />
+        {drawOrder.map((shapeId) => {
           const shape = def.shapes[shapeId]!;
           const isHi = shapeId === mapCountry.highlightedShapeId;
           return (

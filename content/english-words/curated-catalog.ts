@@ -11,6 +11,10 @@ export const ENGLISH_WORDS_GENTLE_ORDER = [
   "car",
   "mom",
   "dad",
+  "bird",
+  "ball",
+  "milk",
+  "red",
 ] as const;
 
 /**
@@ -20,9 +24,21 @@ export const ENGLISH_WORDS_STEADY_NEAR_GENTLE = ["hat", "fish", "apple", "tree"]
 
 export const ENGLISH_WORDS_STEADY_NEXT = ["house", "water", "book", "chair", "green", "happy"] as const;
 
+export const ENGLISH_WORDS_STEADY_EXTENDED = [
+  "star",
+  "bed",
+  "bus",
+  "cup",
+  "cake",
+  "shoe",
+  "duck",
+  "frog",
+] as const;
+
 export const ENGLISH_WORDS_STEADY_ORDERED = [
   ...ENGLISH_WORDS_STEADY_NEAR_GENTLE,
   ...ENGLISH_WORDS_STEADY_NEXT,
+  ...ENGLISH_WORDS_STEADY_EXTENDED,
 ] as const;
 
 export type EnglishWordMatchingPairSpec = Readonly<{ pairId: string; word: string }>;
@@ -51,6 +67,16 @@ export const ENGLISH_WORDS_MATCHING_GENTLE_ROUNDS: readonly EnglishWordsMatching
       { pairId: "ew-g4", word: "car" },
       { pairId: "ew-g5", word: "mom" },
       { pairId: "ew-g6", word: "dad" },
+    ],
+  },
+  {
+    instructions: "New friends — colors, food, and play",
+    explanation: "ציפור, כדור, חלב ואדום.",
+    pairs: [
+      { pairId: "ew-g7", word: "bird" },
+      { pairId: "ew-g8", word: "ball" },
+      { pairId: "ew-g9", word: "milk" },
+      { pairId: "ew-g10", word: "red" },
     ],
   },
 ];
@@ -85,6 +111,26 @@ export const ENGLISH_WORDS_MATCHING_STEADY_ROUNDS: readonly EnglishWordsMatching
       { pairId: "ew-s10", word: "happy" },
     ],
   },
+  {
+    instructions: "Sky, sleep, wheels, and sips",
+    explanation: "כוכב, מיטה, אוטובוס וספל.",
+    pairs: [
+      { pairId: "ew-s11", word: "star" },
+      { pairId: "ew-s12", word: "bed" },
+      { pairId: "ew-s13", word: "bus" },
+      { pairId: "ew-s14", word: "cup" },
+    ],
+  },
+  {
+    instructions: "Sweet treat, feet, quack, hop",
+    explanation: "עוגה, נעל, ברווז וצפרדע.",
+    pairs: [
+      { pairId: "ew-s15", word: "cake" },
+      { pairId: "ew-s16", word: "shoe" },
+      { pairId: "ew-s17", word: "duck" },
+      { pairId: "ew-s18", word: "frog" },
+    ],
+  },
 ];
 
 /**
@@ -98,6 +144,14 @@ export const ENGLISH_WORDS_SPARK_ORDERED = [
   "elephant",
   "purple",
   "airplane",
+  "tiger",
+  "monkey",
+  "train",
+  "yellow",
+  "orange",
+  "flower",
+  "spoon",
+  "sister",
 ] as const;
 
 /** matching ל־spark — רק מילים מהרשימה לעיל */
@@ -120,5 +174,29 @@ export const ENGLISH_WORDS_MATCHING_SPARK_ROUNDS: readonly EnglishWordsMatchingR
       { pairId: "ew-sp-6", word: "purple" },
       { pairId: "ew-sp-7", word: "airplane" },
     ],
+  },
+  {
+    instructions: "Spark — jungle, trees, and rides",
+    explanation: "טיגריס, קוף ורכבת.",
+    pairs: [
+      { pairId: "ew-sp-8", word: "tiger" },
+      { pairId: "ew-sp-9", word: "monkey" },
+      { pairId: "ew-sp-10", word: "train" },
+    ],
+  },
+  {
+    instructions: "Colors, kitchen, family",
+    explanation: "צהוב, כתום, פרח וכפית.",
+    pairs: [
+      { pairId: "ew-sp-11", word: "yellow" },
+      { pairId: "ew-sp-12", word: "orange" },
+      { pairId: "ew-sp-13", word: "flower" },
+      { pairId: "ew-sp-14", word: "spoon" },
+    ],
+  },
+  {
+    instructions: "One more warm match",
+    explanation: "בני משפחה.",
+    pairs: [{ pairId: "ew-sp-15", word: "sister" }],
   },
 ];

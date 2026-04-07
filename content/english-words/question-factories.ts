@@ -9,7 +9,6 @@ import {
 } from "./curated-catalog";
 import {
   ENGLISH_WORDS_BY_LEVEL,
-  displayHintForBuild,
   lettersSegmentForBuild,
   visualForEnglishWord,
 } from "./lexicon";
@@ -238,15 +237,27 @@ export function buildWordOrderBank(): Record<DifficultyLevel, MultipleChoiceQues
       });
       const correctKey = optKeys[orderedKeys.indexOf(correct)]!;
       const distractorKeys = optKeys.filter((k) => k !== correctKey);
-      const hintWord = displayHintForBuild(word, seg);
+      const v = visualForEnglishWord(word);
+      const partial = seg.toLowerCase() !== word.toLowerCase();
+      const instructions = partial
+        ? "Put the letters in order. The picture is your clue — it goes with the full word."
+        : "Put the letters in order to spell the word for this picture.";
       out[level].push({
         id: `ew-build-${level}-${i}`,
         type: "multiple-choice",
         world: "englishWords",
         level,
-        instructions: `Put the letters in order.\n${hintWord}`,
+        instructions,
+        promptVisual: {
+          emoji: v.emoji,
+          imageSrc: v.imageSrc,
+          illustrationKey: v.illustrationKey,
+          altHe: v.altHe,
+        },
         skills: MC_SKILLS,
-        explanation: `סדר האותיות של ${hintWord}.`,
+        explanation: partial
+          ? `התחלה של המילה "${word}" — לפי האותיות בריבועי הבחירה.`
+          : `סדר האותיות של "${word}".`,
         correctAnswer: correctKey,
         distractors: distractorKeys,
         choices,
